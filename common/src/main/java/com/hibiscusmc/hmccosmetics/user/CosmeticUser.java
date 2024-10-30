@@ -38,6 +38,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.*;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.scheduler.BukkitTask;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
@@ -221,7 +222,7 @@ public class CosmeticUser {
         return getUserCosmeticItem(cosmetic);
     }
 
-    public ItemStack getUserCosmeticItem(Cosmetic cosmetic) {
+    public ItemStack getUserCosmeticItem(@NotNull Cosmetic cosmetic) {
         ItemStack item = null;
         if (!hiddenReason.isEmpty()) {
             if (cosmetic instanceof CosmeticBackpackType || cosmetic instanceof CosmeticBalloonType) return new ItemStack(Material.AIR);
@@ -244,7 +245,7 @@ public class CosmeticUser {
     }
 
     @SuppressWarnings("deprecation")
-    public ItemStack getUserCosmeticItem(Cosmetic cosmetic, ItemStack item) {
+    public ItemStack getUserCosmeticItem(@NotNull Cosmetic cosmetic, @Nullable ItemStack item) {
         if (item == null) {
             //MessagesUtil.sendDebugMessages("GetUserCosemticUser Item is null");
             return new ItemStack(Material.AIR);
@@ -323,7 +324,7 @@ public class CosmeticUser {
         return userWardrobeManager;
     }
 
-    public void enterWardrobe(boolean ignoreDistance, Wardrobe wardrobe) {
+    public void enterWardrobe(boolean ignoreDistance, @NotNull Wardrobe wardrobe) {
         if (wardrobe.hasPermission() && !getPlayer().hasPermission(wardrobe.getPermission())) {
             MessagesUtil.sendMessage(getPlayer(), "no-permission");
             return;
