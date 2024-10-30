@@ -379,6 +379,10 @@ public class PlayerGameListener implements Listener {
     public void onPlayerCosmeticEquip(PlayerCosmeticPostEquipEvent event) {
         CosmeticUser user = event.getUser();
         if (user.isInWardrobe() && event.getCosmetic().getSlot().equals(CosmeticSlot.BALLOON)) {
+            if (user.getBalloonManager() == null) {
+                MessagesUtil.sendDebugMessages("Balloon Manager is null? " + user.getEntity().getName());
+                return;
+            }
             CosmeticBalloonType cosmetic = (CosmeticBalloonType) event.getCosmetic();
             Location npclocation = user.getWardrobeManager().getNpcLocation().clone().add(cosmetic.getBalloonOffset());
             // We know that no other entity besides a regular player will be in the wardrobe
