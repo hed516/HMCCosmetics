@@ -60,6 +60,8 @@ public class CosmeticUser {
     // Cosmetic Settings/Toggles
     private final ArrayList<HiddenReason> hiddenReason = new ArrayList<>();
     private final HashMap<CosmeticSlot, Color> colors = new HashMap<>();
+    // Cosmetic caches
+    private final HashMap<String, ItemStack> cosmeticItems = new HashMap<>();
 
     public CosmeticUser(UUID uuid) {
         this.uniqueId = uuid;
@@ -276,18 +278,22 @@ public class CosmeticUser {
                 itemMeta = skullMeta;
             }
 
-            List<String> processedLore = new ArrayList<>();
-
-            if (itemMeta.hasLore()) {
-                for (String loreLine : itemMeta.getLore()) {
-                    processedLore.add(Hooks.processPlaceholders(getPlayer(), loreLine));
+            if (Settings.isItemProcessingDisplayName()) {
+                if (itemMeta.hasDisplayName()) {
+                    String displayName = itemMeta.getDisplayName();
+                    itemMeta.setDisplayName(Hooks.processPlaceholders(getPlayer(), displayName));
                 }
             }
-            if (itemMeta.hasDisplayName()) {
-                String displayName = itemMeta.getDisplayName();
-                itemMeta.setDisplayName(Hooks.processPlaceholders(getPlayer(), displayName));
+            if (Settings.isItemProcessingLore()) {
+                List<String> processedLore = new ArrayList<>();
+                if (itemMeta.hasLore()) {
+                    for (String loreLine : itemMeta.getLore()) {
+                        processedLore.add(Hooks.processPlaceholders(getPlayer(), loreLine));
+                    }
+                }
+                itemMeta.setLore(processedLore);
             }
-            itemMeta.setLore(processedLore);
+
 
             if (colors.containsKey(cosmetic.getSlot())) {
                 Color color = colors.get(cosmetic.getSlot());
