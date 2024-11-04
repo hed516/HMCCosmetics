@@ -2,9 +2,9 @@ name: Android CI
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "remapped" ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ "remapped" ]
 
 jobs:
   build:
